@@ -1,5 +1,24 @@
 import * as THREE from "three";
 
+const textureLoader = new THREE.TextureLoader();
+const canopyTextureCache = new Map();
+const bambooRibTexture = textureLoader.load(
+  new URL("../assets/textures/bamboo-rib.png", import.meta.url).href,
+);
+const woodHandleTexture = textureLoader.load(
+  new URL("../assets/textures/wood-handle.png", import.meta.url).href,
+);
+
+bambooRibTexture.colorSpace = THREE.SRGBColorSpace;
+bambooRibTexture.wrapS = THREE.RepeatWrapping;
+bambooRibTexture.wrapT = THREE.RepeatWrapping;
+
+woodHandleTexture.colorSpace = THREE.SRGBColorSpace;
+woodHandleTexture.wrapS = THREE.RepeatWrapping;
+woodHandleTexture.wrapT = THREE.RepeatWrapping;
+woodHandleTexture.center.set(0.5, 0.5);
+woodHandleTexture.rotation = Math.PI / 2;
+
 /**
  * 创建一把参数化的油纸伞。
  *
@@ -24,9 +43,13 @@ export function createUmbrella(params = {}) {
     hubHeight = 0.14,
     handleLength = 0.52,
     handleRadius = 0.055,
+    canopyTexture = null,
     canopyColor = 0xb7392f,
+    transmission = 0.45,
+    roughness = 0.55,
     bambooColor = 0x65714a,
-    woodColor = 0x5a3828,
+    ribColor = 0xffffff,
+    woodColor = 0xffffff,
     hubColor = 0x8a6a3f,
   } = params;
 
@@ -72,9 +95,25 @@ export function createUmbrella(params = {}) {
     ),
   );
 
-  const canopyMaterial = new THREE.MeshStandardMaterial({
-    color: canopyColor,
-    roughness: 0.78,
+  let canopyMap = null;
+  if (canopyTexture) {
+    const textureUrl = new URL(canopyTexture, document.baseURI).href;
+    canopyMap = canopyTextureCache.get(textureUrl);
+
+    if (!canopyMap) {
+      canopyMap = textureLoader.load(textureUrl);
+      canopyMap.colorSpace = THREE.SRGBColorSpace;
+      canopyMap.wrapS = THREE.ClampToEdgeWrapping;
+      canopyMap.wrapT = THREE.ClampToEdgeWrapping;
+      canopyTextureCache.set(textureUrl, canopyMap);
+    }
+  }
+
+  const canopyMaterial = new THREE.MeshPhysicalMaterial({
+    color: canopyMap ? 0xffffff : canopyColor,
+    map: canopyMap,
+    transmission: THREE.MathUtils.clamp(transmission, 0, 1),
+    roughness: THREE.MathUtils.clamp(roughness, 0, 1),
     metalness: 0,
     side: THREE.DoubleSide,
   });
@@ -83,8 +122,15 @@ export function createUmbrella(params = {}) {
     roughness: 0.72,
     metalness: 0,
   });
+  const ribMaterial = new THREE.MeshStandardMaterial({
+    color: ribColor,
+    map: bambooRibTexture,
+    roughness: 0.7,
+    metalness: 0,
+  });
   const woodMaterial = new THREE.MeshStandardMaterial({
     color: woodColor,
+    map: woodHandleTexture,
     roughness: 0.8,
     metalness: 0,
   });
@@ -141,6 +187,7 @@ export function createUmbrella(params = {}) {
 
   // 伞面和伞骨共用同一条轮廓，因此开合时不会彼此穿插。
   const canopyVertices = [0, canopyTopY, 0];
+  const canopyUvs = [0.5, 0.5];
   const canopyIndices = [];
 
   for (let ring = 1; ring <= safeCanopyRings; ring += 1) {
@@ -154,6 +201,13 @@ export function createUmbrella(params = {}) {
         Math.cos(angle) * radius,
         y,
         Math.sin(angle) * radius,
+      );
+
+      // 水平半径决定纹样半径，方位角决定纹样角度。
+      // t=0 对应图片圆心，t=1 对应图片外圆边缘。
+      canopyUvs.push(
+        0.5 + Math.cos(angle) * t * 0.5,
+        0.5 + Math.sin(angle) * t * 0.5,
       );
     }
   }
@@ -181,6 +235,10 @@ export function createUmbrella(params = {}) {
   canopyGeometry.setAttribute(
     "position",
     new THREE.Float32BufferAttribute(canopyVertices, 3),
+  );
+  canopyGeometry.setAttribute(
+    "uv",
+    new THREE.Float32BufferAttribute(canopyUvs, 2),
   );
   canopyGeometry.setIndex(canopyIndices);
   canopyGeometry.computeVertexNormals();
@@ -218,7 +276,7 @@ export function createUmbrella(params = {}) {
         ribPoints[segment],
         ribPoints[segment + 1],
         ribRadius,
-        bambooMaterial,
+        ribMaterial,
         `rib-${rib + 1}`,
       );
     }
@@ -230,7 +288,7 @@ export function createUmbrella(params = {}) {
       strutStart,
       middlePoint,
       strutRadius,
-      bambooMaterial,
+      ribMaterial,
       `strut-${rib + 1}`,
     );
   }

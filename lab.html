@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>古伞结构调参台</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        color: #eef0ed;
+        background: #292d2e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+      }
+
+      .panel {
+        position: relative;
+        z-index: 1;
+        padding: 34px 28px;
+        background: #25292a;
+        border-right: 1px solid #454a4b;
+        overflow-y: auto;
+      }
+
+      h1 {
+        margin: 0;
+        color: #f4f1e7;
+        font-family: "STKaiti", "KaiTi", serif;
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+      }
+
+      .description {
+        margin: 10px 0 34px;
+        color: #aeb4b3;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .control {
+        display: block;
+        margin-bottom: 27px;
+      }
+
+      .control-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 11px;
+      }
+
+      .control-name {
+        color: #e5e8e4;
+        font-size: 14px;
+      }
+
+      output {
+        min-width: 48px;
+        color: #c7b98b;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+        text-align: right;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        height: 18px;
+        margin: 0;
+        accent-color: #84916d;
+        cursor: pointer;
+      }
+
+      input[type="color"] {
+        width: 100%;
+        height: 32px;
+        padding: 2px;
+        border: 1px solid #555b5c;
+        border-radius: 4px;
+        background: #303536;
+        cursor: pointer;
+      }
+
+      select {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid #555b5c;
+        border-radius: 4px;
+        color: #e5e8e4;
+        background: #303536;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .export-panel {
+        margin-top: 36px;
+        padding-top: 24px;
+        border-top: 1px solid #454a4b;
+      }
+
+      .export-button,
+      .copy-button {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #68705f;
+        border-radius: 4px;
+        color: #f2f1e9;
+        background: #4f5945;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .copy-button {
+        margin-top: 10px;
+        color: #dfe3de;
+        background: #34393a;
+        border-color: #565c5d;
+      }
+
+      .export-button:hover,
+      .copy-button:hover {
+        border-color: #9ba58a;
+      }
+
+      .export-result {
+        margin-top: 14px;
+      }
+
+      .export-result[hidden] {
+        display: none;
+      }
+
+      .export-output {
+        max-height: 260px;
+        margin: 0;
+        padding: 12px;
+        overflow: auto;
+        color: #d8ddd7;
+        background: #1d2021;
+        border: 1px solid #454a4b;
+        border-radius: 4px;
+        font-family: Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .copy-status {
+        min-height: 18px;
+        margin: 7px 0 0;
+        color: #bdc6b0;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .viewport {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        background: #878b8e;
+      }
+
+      .viewport canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        outline: none;
+      }
+
+      .hint {
+        position: absolute;
+        right: 20px;
+        bottom: 18px;
+        z-index: 1;
+        margin: 0;
+        color: rgb(255 255 255 / 65%);
+        font-size: 12px;
+        pointer-events: none;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .panel {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(110px, 1fr));
+          gap: 18px;
+          padding: 18px 20px;
+          border-right: 0;
+          border-bottom: 1px solid #454a4b;
+          overflow-x: auto;
+        }
+
+        .panel-header {
+          display: none;
+        }
+
+        .control {
+          margin: 0;
+        }
+      }
+    </style>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <aside class="panel" aria-label="伞结构参数">
+      <header class="panel-header">
+        <h1>古伞结构调参台</h1>
+        <p class="description">拖动滑块观察伞骨、撑骨与伞面如何共同变化。</p>
+      </header>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">骨数</span>
+          <output for="rib-count" id="rib-count-value">24</output>
+        </span>
+        <input id="rib-count" name="ribCount" type="range" min="16" max="40" step="1" value="24" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">骨长</span>
+          <output for="rib-length" id="rib-length-value">1.68</output>
+        </span>
+        <input id="rib-length" name="ribLength" type="range" min="1.2" max="2.4" step="0.02" value="1.68" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">伞面弧垂</span>
+          <output for="canopy-rise" id="canopy-rise-value">0.14</output>
+        </span>
+        <input id="canopy-rise" name="canopyRise" type="range" min="0" max="0.35" step="0.01" value="0.14" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">开合量</span>
+          <output for="open-amount" id="open-amount-value">1.00</output>
+        </span>
+        <input id="open-amount" name="openAmount" type="range" min="0" max="1" step="0.01" value="1" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">中棒长度</span>
+          <output for="shaft-length" id="shaft-length-value">3.20</output>
+        </span>
+        <input id="shaft-length" name="shaftLength" type="range" min="2.4" max="4.2" step="0.05" value="3.2" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">透光率</span>
+          <output for="transmission" id="transmission-value">0.45</output>
+        </span>
+        <input id="transmission" name="transmission" type="range" min="0" max="1" step="0.01" value="0.45" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">粗糙度</span>
+          <output for="roughness" id="roughness-value">0.55</output>
+        </span>
+        <input id="roughness" name="roughness" type="range" min="0" max="1" step="0.01" value="0.55" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">伞面颜色</span>
+          <output for="canopy-color" id="canopy-color-value">#B7392F</output>
+        </span>
+        <input id="canopy-color" name="canopyColor" type="color" value="#b7392f" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">伞面纹样</span>
+        </span>
+        <select id="canopy-texture" name="canopyTexture">
+          <option value="">无贴图</option>
+          <option value="assets/patterns/peony-crimson.png" selected>peony-crimson.png</option>
+          <option value="assets/patterns/westlake-ink.png">westlake-ink.png</option>
+          <option value="assets/patterns/plum-ink.png">plum-ink.png</option>
+          <option value="assets/patterns/lotus-scroll.png">lotus-scroll.png</option>
+          <option value="assets/patterns/crane-cloud.png">crane-cloud.png</option>
+          <option value="assets/patterns/bat-fortune.png">bat-fortune.png</option>
+          <option value="assets/patterns/rain-bamboo.png">rain-bamboo.png</option>
+          <option value="assets/patterns/cloud-thunder.png">cloud-thunder.png</option>
+        </select>
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">伞骨颜色</span>
+          <output for="rib-color" id="rib-color-value">#FFFFFF</output>
+        </span>
+        <input id="rib-color" name="ribColor" type="color" value="#ffffff" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">主光角度</span>
+          <output for="main-light-angle" id="main-light-angle-value">210°</output>
+        </span>
+        <input id="main-light-angle" name="mainLightAngle" type="range" min="0" max="360" step="1" value="210" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">主光强度</span>
+          <output for="main-light-intensity" id="main-light-intensity-value">6.50</output>
+        </span>
+        <input id="main-light-intensity" name="mainLightIntensity" type="range" min="0" max="10" step="0.1" value="6.5" />
+      </label>
+
+      <section class="export-panel" aria-label="导出参数">
+        <button class="export-button" id="export-params" type="button">导出当前参数</button>
+        <div class="export-result" id="export-result" hidden>
+          <pre class="export-output" id="export-output"></pre>
+          <button class="copy-button" id="copy-params" type="button">一键复制</button>
+          <p class="copy-status" id="copy-status" aria-live="polite"></p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="viewport" id="viewport" aria-label="三维古伞预览">
+      <p class="hint">拖动旋转 · 滚轮缩放</p>
+    </main>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { createUmbrella } from "./src/umbrella.js";
+      import { createScene } from "./src/scene.js";
+
+      const viewport = document.querySelector("#viewport");
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const canopyColorInput = document.querySelector("#canopy-color");
+      const ribColorInput = document.querySelector("#rib-color");
+      const canopyTextureInput = document.querySelector("#canopy-texture");
+      const colorInputs = [canopyColorInput, ribColorInput];
+      const exportButton = document.querySelector("#export-params");
+      const exportResult = document.querySelector("#export-result");
+      const exportOutput = document.querySelector("#export-output");
+      const copyButton = document.querySelector("#copy-params");
+      const copyStatus = document.querySelector("#copy-status");
+      const lightInputNames = new Set(["mainLightAngle", "mainLightIntensity"]);
+      const stage = createScene(viewport);
+      const canopyDrop = 0.5;
+      let umbrella = null;
+      let updateScheduled = false;
+
+      const updateOutputs = () => {
+        for (const input of inputs) {
+          const output = document.querySelector(`#${input.id}-value`);
+          const isWholeNumber = input.name === "ribCount" || input.name === "mainLightAngle";
+          const suffix = input.name === "mainLightAngle" ? "°" : "";
+          output.value = `${Number(input.value).toFixed(isWholeNumber ? 0 : 2)}${suffix}`;
+        }
+        document.querySelector("#canopy-color-value").value = canopyColorInput.value.toUpperCase();
+        document.querySelector("#rib-color-value").value = ribColorInput.value.toUpperCase();
+      };
+
+      const removeUmbrella = () => {
+        if (!umbrella) return;
+
+        const geometries = new Set();
+        const materials = new Set();
+
+        umbrella.traverse((part) => {
+          if (part.geometry) geometries.add(part.geometry);
+          if (Array.isArray(part.material)) {
+            part.material.forEach((material) => materials.add(material));
+          } else if (part.material) {
+            materials.add(part.material);
+          }
+        });
+
+        stage.scene.remove(umbrella);
+        geometries.forEach((geometry) => geometry.dispose());
+        materials.forEach((material) => material.dispose());
+      };
+
+      const buildUmbrella = () => {
+        const values = Object.fromEntries(
+          inputs.map((input) => [input.name, Number(input.value)]),
+        );
+        const canopyRadius = Math.sqrt(
+          Math.max(values.ribLength ** 2 - canopyDrop ** 2, 0.01),
+        );
+
+        removeUmbrella();
+        umbrella = createUmbrella({
+          ribCount: values.ribCount,
+          canopyRadius,
+          canopyDrop,
+          canopyRise: values.canopyRise,
+          openAmount: values.openAmount,
+          shaftLength: values.shaftLength,
+          transmission: values.transmission,
+          roughness: values.roughness,
+          canopyColor: canopyColorInput.value,
+          canopyTexture: canopyTextureInput.value || null,
+          ribColor: ribColorInput.value,
+        });
+
+        umbrella.traverse((part) => {
+          if (part instanceof THREE.Mesh) {
+            part.castShadow = true;
+            part.receiveShadow = true;
+          }
+        });
+
+        const bounds = new THREE.Box3().setFromObject(umbrella);
+        umbrella.position.y = -bounds.min.y;
+        stage.scene.add(umbrella);
+
+        const size = bounds.getSize(new THREE.Vector3());
+        stage.controls.target.y = size.y * 0.8;
+        stage.mainLight.target.position.y = size.y * 0.82;
+      };
+
+      const updateLighting = () => {
+        const angle = THREE.MathUtils.degToRad(
+          Number(document.querySelector("#main-light-angle").value),
+        );
+        const distance = 6.5;
+
+        stage.mainLight.position.set(
+          Math.sin(angle) * distance,
+          7,
+          Math.cos(angle) * distance,
+        );
+        stage.mainLight.intensity = Number(
+          document.querySelector("#main-light-intensity").value,
+        );
+      };
+
+      const scheduleUpdate = () => {
+        updateOutputs();
+        if (updateScheduled) return;
+
+        updateScheduled = true;
+        requestAnimationFrame(() => {
+          buildUmbrella();
+          updateScheduled = false;
+        });
+      };
+
+      const exportCurrentParams = () => {
+        const currentParams = {};
+
+        inputs.forEach((input) => {
+          currentParams[input.name] = Number(input.value);
+        });
+        colorInputs.forEach((input) => {
+          currentParams[input.name] = input.value;
+        });
+        currentParams.canopyTexture = canopyTextureInput.value || null;
+
+        exportOutput.textContent = JSON.stringify(currentParams, null, 2);
+        exportResult.hidden = false;
+        copyStatus.textContent = "";
+      };
+
+      const copyCurrentParams = async () => {
+        const text = exportOutput.textContent;
+
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const temporaryInput = document.createElement("textarea");
+          temporaryInput.value = text;
+          temporaryInput.style.position = "fixed";
+          temporaryInput.style.opacity = "0";
+          document.body.appendChild(temporaryInput);
+          temporaryInput.select();
+          document.execCommand("copy");
+          temporaryInput.remove();
+        }
+
+        copyStatus.textContent = "已复制";
+      };
+
+      inputs.forEach((input) => {
+        if (lightInputNames.has(input.name)) {
+          input.addEventListener("input", () => {
+            updateOutputs();
+            updateLighting();
+          });
+        } else {
+          input.addEventListener("input", scheduleUpdate);
+        }
+      });
+      colorInputs.forEach((input) => input.addEventListener("input", scheduleUpdate));
+      canopyTextureInput.addEventListener("change", scheduleUpdate);
+      exportButton.addEventListener("click", exportCurrentParams);
+      copyButton.addEventListener("click", copyCurrentParams);
+      updateOutputs();
+      updateLighting();
+      buildUmbrella();
+    </script>
+  </body>
+</html>
