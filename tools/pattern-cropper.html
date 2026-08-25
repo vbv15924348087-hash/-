@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>圆形纹样裁切工具</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        color: #edf0eb;
+        background: #25292a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+      }
+
+      .panel {
+        padding: 30px 26px;
+        overflow-y: auto;
+        background: #202425;
+        border-right: 1px solid #44494a;
+      }
+
+      h1 {
+        margin: 0;
+        color: #f2efe4;
+        font-family: "STKaiti", "KaiTi", serif;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+      }
+
+      .description {
+        margin: 10px 0 26px;
+        color: #abb2b0;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .select-button,
+      .export-button {
+        display: block;
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #69725f;
+        border-radius: 4px;
+        color: #f2f2e9;
+        background: #505b46;
+        font: inherit;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .select-button:hover,
+      .export-button:hover {
+        border-color: #9da88d;
+      }
+
+      .file-name {
+        min-height: 19px;
+        margin: 9px 0 28px;
+        color: #aeb5b3;
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      .control {
+        display: block;
+        margin-bottom: 27px;
+      }
+
+      .control-heading,
+      .switch-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 10px;
+      }
+
+      .control-name {
+        color: #e3e7e2;
+        font-size: 14px;
+      }
+
+      output {
+        color: #c6b987;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        margin: 0;
+        accent-color: #869471;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        accent-color: #869471;
+        cursor: pointer;
+      }
+
+      .export-button {
+        margin-top: 10px;
+      }
+
+      .privacy-note,
+      .status {
+        color: #949c9a;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .status {
+        min-height: 20px;
+        margin: 9px 0 0;
+        color: #bdc7af;
+        text-align: center;
+      }
+
+      .editor {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        background: #383d3e;
+        overflow: hidden;
+      }
+
+      .editor.is-dragging {
+        outline: 3px solid #9ca98a;
+        outline-offset: -3px;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        cursor: crosshair;
+      }
+
+      .empty-state {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        padding: 28px;
+        color: #c4cac7;
+        text-align: center;
+        line-height: 1.8;
+        pointer-events: none;
+      }
+
+      .empty-state[hidden] {
+        display: none;
+      }
+
+      .editor-hint {
+        position: absolute;
+        right: 18px;
+        bottom: 15px;
+        margin: 0;
+        color: rgb(255 255 255 / 68%);
+        font-size: 12px;
+        pointer-events: none;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto minmax(420px, 1fr);
+          overflow: auto;
+        }
+
+        .panel {
+          border-right: 0;
+          border-bottom: 1px solid #44494a;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="panel">
+      <h1>圆形纹样裁切</h1>
+      <p class="description">把纹样圆心对准选区中心，再按需要处理白底和边缘。</p>
+
+      <label class="select-button" for="file-input">选择本地图片</label>
+      <input id="file-input" type="file" accept="image/*" hidden />
+      <p class="file-name" id="file-name">也可以把图片拖到右侧</p>
+
+      <label class="control">
+        <span class="switch-row">
+          <span class="control-name">去白底</span>
+          <input id="remove-white" type="checkbox" />
+        </span>
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">白底容差</span>
+          <output id="tolerance-value" for="tolerance">24</output>
+        </span>
+        <input id="tolerance" type="range" min="0" max="100" step="1" value="24" />
+      </label>
+
+      <label class="control">
+        <span class="control-heading">
+          <span class="control-name">外圈羽化</span>
+          <output id="feather-value" for="feather">48 px</output>
+        </span>
+        <input id="feather" type="range" min="0" max="320" step="1" value="48" />
+      </label>
+
+      <button class="export-button" id="export-button" type="button" disabled>
+        导出 2048×2048 PNG
+      </button>
+      <p class="status" id="status" aria-live="polite"></p>
+      <p class="privacy-note">图片只在当前浏览器中处理，不会上传。</p>
+    </aside>
+
+    <main class="editor" id="editor">
+      <canvas id="editor-canvas" aria-label="图片圆形裁切编辑区"></canvas>
+      <div class="empty-state" id="empty-state">
+        <strong>拖入一张图片</strong>
+        <span>或点击左侧“选择本地图片”</span>
+      </div>
+      <p class="editor-hint">拖动圆内移动 · 拖动右侧圆点缩放</p>
+    </main>
+
+    <script>
+      const editor = document.querySelector("#editor");
+      const canvas = document.querySelector("#editor-canvas");
+      const context = canvas.getContext("2d");
+      const fileInput = document.querySelector("#file-input");
+      const fileName = document.querySelector("#file-name");
+      const emptyState = document.querySelector("#empty-state");
+      const removeWhite = document.querySelector("#remove-white");
+      const tolerance = document.querySelector("#tolerance");
+      const toleranceValue = document.querySelector("#tolerance-value");
+      const feather = document.querySelector("#feather");
+      const featherValue = document.querySelector("#feather-value");
+      const exportButton = document.querySelector("#export-button");
+      const status = document.querySelector("#status");
+
+      const rawPreview = document.createElement("canvas");
+      const processedPreview = document.createElement("canvas");
+      const selection = { x: 0, y: 0, radius: 0 };
+      const view = { x: 0, y: 0, width: 0, height: 0, scale: 1 };
+
+      let currentImage = null;
+      let currentFileName = "pattern";
+      let pointerMode = null;
+      let dragOffsetX = 0;
+      let dragOffsetY = 0;
+      let previewUpdateScheduled = false;
+
+      function selectionInImagePixels() {
+        if (!currentImage || view.scale === 0) return null;
+
+        return {
+          x: (selection.x - view.x) / view.scale,
+          y: (selection.y - view.y) / view.scale,
+          radius: selection.radius / view.scale,
+        };
+      }
+
+      function updateView() {
+        if (!currentImage) return;
+
+        const margin = 34;
+        view.scale = Math.min(
+          (canvas.width - margin * 2) / currentImage.naturalWidth,
+          (canvas.height - margin * 2) / currentImage.naturalHeight,
+        );
+        view.width = currentImage.naturalWidth * view.scale;
+        view.height = currentImage.naturalHeight * view.scale;
+        view.x = (canvas.width - view.width) / 2;
+        view.y = (canvas.height - view.height) / 2;
+      }
+
+      function keepSelectionInsideImage() {
+        const maximumRadius = Math.max(
+          24,
+          Math.min(
+            selection.x - view.x,
+            view.x + view.width - selection.x,
+            selection.y - view.y,
+            view.y + view.height - selection.y,
+          ),
+        );
+
+        selection.radius = Math.min(selection.radius, maximumRadius);
+        selection.x = Math.min(
+          view.x + view.width - selection.radius,
+          Math.max(view.x + selection.radius, selection.x),
+        );
+        selection.y = Math.min(
+          view.y + view.height - selection.radius,
+          Math.max(view.y + selection.radius, selection.y),
+        );
+      }
+
+      function resizeEditor(resetSelection = false) {
+        const savedSelection = resetSelection ? null : selectionInImagePixels();
+        canvas.width = Math.max(1, Math.round(editor.clientWidth));
+        canvas.height = Math.max(1, Math.round(editor.clientHeight));
+
+        if (!currentImage) {
+          drawEditor();
+          return;
+        }
+
+        updateView();
+
+        if (savedSelection) {
+          selection.x = view.x + savedSelection.x * view.scale;
+          selection.y = view.y + savedSelection.y * view.scale;
+          selection.radius = savedSelection.radius * view.scale;
+        } else {
+          selection.x = view.x + view.width / 2;
+          selection.y = view.y + view.height / 2;
+          selection.radius = Math.min(view.width, view.height) * 0.44;
+        }
+
+        keepSelectionInsideImage();
+        drawEditor();
+      }
+
+      function drawEditor() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "#383d3e";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (!currentImage) return;
+
+        context.drawImage(
+          removeWhite.checked ? processedPreview : rawPreview,
+          view.x,
+          view.y,
+          view.width,
+          view.height,
+        );
+
+        context.save();
+        context.beginPath();
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.arc(selection.x, selection.y, selection.radius, 0, Math.PI * 2, true);
+        context.fillStyle = "rgb(15 18 18 / 62%)";
+        context.fill("evenodd");
+        context.restore();
+
+        context.save();
+        context.strokeStyle = "#f2eee0";
+        context.lineWidth = 2;
+        context.setLineDash([8, 6]);
+        context.beginPath();
+        context.arc(selection.x, selection.y, selection.radius, 0, Math.PI * 2);
+        context.stroke();
+
+        const featherPixels = Number(feather.value);
+        if (featherPixels > 0) {
+          const innerRadius = selection.radius * (1 - featherPixels / 1024);
+          context.strokeStyle = "rgb(242 238 224 / 48%)";
+          context.lineWidth = 1;
+          context.setLineDash([3, 5]);
+          context.beginPath();
+          context.arc(selection.x, selection.y, Math.max(1, innerRadius), 0, Math.PI * 2);
+          context.stroke();
+        }
+
+        context.setLineDash([]);
+        context.strokeStyle = "rgb(242 238 224 / 75%)";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(selection.x - 12, selection.y);
+        context.lineTo(selection.x + 12, selection.y);
+        context.moveTo(selection.x, selection.y - 12);
+        context.lineTo(selection.x, selection.y + 12);
+        context.stroke();
+
+        context.fillStyle = "#83916f";
+        context.strokeStyle = "#f2eee0";
+        context.lineWidth = 2;
+        context.beginPath();
+        context.arc(selection.x + selection.radius, selection.y, 8, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+        context.restore();
+      }
+
+      function rebuildProcessedPreview() {
+        processedPreview.width = rawPreview.width;
+        processedPreview.height = rawPreview.height;
+        const previewContext = processedPreview.getContext("2d", { willReadFrequently: true });
+        previewContext.drawImage(rawPreview, 0, 0);
+
+        if (removeWhite.checked) {
+          const imageData = previewContext.getImageData(
+            0,
+            0,
+            processedPreview.width,
+            processedPreview.height,
+          );
+          const pixels = imageData.data;
+          const threshold = 255 - Number(tolerance.value);
+
+          for (let index = 0; index < pixels.length; index += 4) {
+            if (
+              pixels[index] >= threshold &&
+              pixels[index + 1] >= threshold &&
+              pixels[index + 2] >= threshold
+            ) {
+              pixels[index + 3] = 0;
+            }
+          }
+
+          previewContext.putImageData(imageData, 0, 0);
+        }
+
+        drawEditor();
+      }
+
+      function schedulePreviewUpdate() {
+        toleranceValue.value = tolerance.value;
+        featherValue.value = `${feather.value} px`;
+
+        if (!currentImage || previewUpdateScheduled) {
+          drawEditor();
+          return;
+        }
+
+        previewUpdateScheduled = true;
+        requestAnimationFrame(() => {
+          rebuildProcessedPreview();
+          previewUpdateScheduled = false;
+        });
+      }
+
+      function preparePreview() {
+        const maximumSize = 1400;
+        const scale = Math.min(
+          1,
+          maximumSize / Math.max(currentImage.naturalWidth, currentImage.naturalHeight),
+        );
+        rawPreview.width = Math.max(1, Math.round(currentImage.naturalWidth * scale));
+        rawPreview.height = Math.max(1, Math.round(currentImage.naturalHeight * scale));
+        rawPreview.getContext("2d").drawImage(
+          currentImage,
+          0,
+          0,
+          rawPreview.width,
+          rawPreview.height,
+        );
+        rebuildProcessedPreview();
+      }
+
+      function loadFile(file) {
+        if (!file || !file.type.startsWith("image/")) {
+          status.textContent = "请选择图片文件";
+          return;
+        }
+
+        const objectUrl = URL.createObjectURL(file);
+        const image = new Image();
+
+        image.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          currentImage = image;
+          currentFileName = file.name.replace(/\.[^.]+$/, "") || "pattern";
+          fileName.textContent = `${file.name} · ${image.naturalWidth}×${image.naturalHeight}`;
+          emptyState.hidden = true;
+          exportButton.disabled = false;
+          status.textContent = "";
+          preparePreview();
+          resizeEditor(true);
+        };
+
+        image.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          status.textContent = "图片读取失败，请换一张再试";
+        };
+
+        image.src = objectUrl;
+      }
+
+      function pointFromEvent(event) {
+        const bounds = canvas.getBoundingClientRect();
+        return {
+          x: ((event.clientX - bounds.left) / bounds.width) * canvas.width,
+          y: ((event.clientY - bounds.top) / bounds.height) * canvas.height,
+        };
+      }
+
+      canvas.addEventListener("pointerdown", (event) => {
+        if (!currentImage) return;
+
+        const point = pointFromEvent(event);
+        const handleX = selection.x + selection.radius;
+        const handleDistance = Math.hypot(point.x - handleX, point.y - selection.y);
+        const centerDistance = Math.hypot(point.x - selection.x, point.y - selection.y);
+
+        if (handleDistance <= 18) {
+          pointerMode = "resize";
+        } else if (centerDistance <= selection.radius) {
+          pointerMode = "move";
+          dragOffsetX = point.x - selection.x;
+          dragOffsetY = point.y - selection.y;
+        } else {
+          return;
+        }
+
+        canvas.setPointerCapture(event.pointerId);
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!pointerMode || !currentImage) return;
+
+        const point = pointFromEvent(event);
+
+        if (pointerMode === "move") {
+          selection.x = point.x - dragOffsetX;
+          selection.y = point.y - dragOffsetY;
+          keepSelectionInsideImage();
+        } else {
+          const maximumRadius = Math.min(
+            selection.x - view.x,
+            view.x + view.width - selection.x,
+            selection.y - view.y,
+            view.y + view.height - selection.y,
+          );
+          selection.radius = Math.min(
+            Math.max(24, Math.hypot(point.x - selection.x, point.y - selection.y)),
+            maximumRadius,
+          );
+        }
+
+        drawEditor();
+      });
+
+      canvas.addEventListener("pointerup", (event) => {
+        pointerMode = null;
+        if (canvas.hasPointerCapture(event.pointerId)) {
+          canvas.releasePointerCapture(event.pointerId);
+        }
+      });
+
+      canvas.addEventListener("pointercancel", () => {
+        pointerMode = null;
+      });
+
+      fileInput.addEventListener("change", () => loadFile(fileInput.files[0]));
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        editor.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          editor.classList.add("is-dragging");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        editor.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          editor.classList.remove("is-dragging");
+        });
+      });
+
+      editor.addEventListener("drop", (event) => {
+        loadFile(event.dataTransfer.files[0]);
+      });
+
+      removeWhite.addEventListener("change", schedulePreviewUpdate);
+      tolerance.addEventListener("input", schedulePreviewUpdate);
+      feather.addEventListener("input", schedulePreviewUpdate);
+
+      exportButton.addEventListener("click", () => {
+        if (!currentImage) return;
+
+        status.textContent = "正在生成……";
+        requestAnimationFrame(() => {
+          const crop = selectionInImagePixels();
+          const outputSize = 2048;
+          const outputCanvas = document.createElement("canvas");
+          const outputContext = outputCanvas.getContext("2d", { willReadFrequently: true });
+          outputCanvas.width = outputSize;
+          outputCanvas.height = outputSize;
+          outputContext.clearRect(0, 0, outputSize, outputSize);
+          outputContext.drawImage(
+            currentImage,
+            crop.x - crop.radius,
+            crop.y - crop.radius,
+            crop.radius * 2,
+            crop.radius * 2,
+            0,
+            0,
+            outputSize,
+            outputSize,
+          );
+
+          const imageData = outputContext.getImageData(0, 0, outputSize, outputSize);
+          const pixels = imageData.data;
+          const center = outputSize / 2;
+          const outerRadius = outputSize / 2;
+          const featherSize = Number(feather.value);
+          const innerRadius = outerRadius - featherSize;
+          const whiteThreshold = 255 - Number(tolerance.value);
+
+          for (let y = 0; y < outputSize; y += 1) {
+            for (let x = 0; x < outputSize; x += 1) {
+              const index = (y * outputSize + x) * 4;
+              const distance = Math.hypot(x + 0.5 - center, y + 0.5 - center);
+
+              if (
+                removeWhite.checked &&
+                pixels[index] >= whiteThreshold &&
+                pixels[index + 1] >= whiteThreshold &&
+                pixels[index + 2] >= whiteThreshold
+              ) {
+                pixels[index + 3] = 0;
+              }
+
+              if (distance >= outerRadius) {
+                pixels[index + 3] = 0;
+              } else if (featherSize > 0 && distance > innerRadius) {
+                const amount = (outerRadius - distance) / featherSize;
+                const smoothAmount = amount * amount * (3 - 2 * amount);
+                pixels[index + 3] = Math.round(pixels[index + 3] * smoothAmount);
+              }
+            }
+          }
+
+          outputContext.putImageData(imageData, 0, 0);
+          outputCanvas.toBlob((blob) => {
+            if (!blob) {
+              status.textContent = "导出失败，请再试一次";
+              return;
+            }
+
+            const downloadUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.download = `${currentFileName}-circle.png`;
+            link.click();
+            URL.revokeObjectURL(downloadUrl);
+            status.textContent = "已导出 2048×2048 PNG";
+          }, "image/png");
+        });
+      });
+
+      new ResizeObserver(() => resizeEditor(false)).observe(editor);
+      toleranceValue.value = tolerance.value;
+      featherValue.value = `${feather.value} px`;
+      resizeEditor(false);
+    </script>
+  </body>
+</html>

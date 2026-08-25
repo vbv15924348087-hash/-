@@ -1,0 +1,508 @@
+{
+  "patterns": [
+    {
+      "path": "",
+      "label": "无贴图",
+      "presentation": "neutral"
+    },
+    {
+      "path": "assets/patterns/peony-crimson.png",
+      "label": "peony-crimson",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/westlake-ink.png",
+      "label": "westlake-ink",
+      "presentation": "landscape"
+    },
+    {
+      "path": "assets/patterns/plum-ink.png",
+      "label": "plum-ink",
+      "presentation": "ink"
+    },
+    {
+      "path": "assets/patterns/lotus-scroll.png",
+      "label": "lotus-scroll",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/crane-cloud.png",
+      "label": "crane-cloud",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/bat-fortune.png",
+      "label": "bat-fortune",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/rain-bamboo.png",
+      "label": "rain-bamboo",
+      "presentation": "ink"
+    },
+    {
+      "path": "assets/patterns/cloud-thunder.png",
+      "label": "cloud-thunder",
+      "presentation": "neutral"
+    }
+  ],
+  "umbrellas": [
+    {
+    "id": "luzhou-fenshui",
+    "name": "泸州分水油纸伞",
+    "alias": "",
+    "origin": "",
+    "geometry": {
+      "ribCount": 24,
+      "ribLength": 2.6,
+      "canopyRise": 0.18,
+      "openAmount": 0.85,
+      "shaftLength": 4.25
+    },
+    "material": {
+      "canopyTexture": "assets/patterns/westlake-ink.png",
+      "canopyColor": "#c49a55",
+      "transmission": 0.24,
+      "roughness": 0.88,
+      "ribColor": "#6f7a45"
+    },
+    "lighting": {
+      "mainLightAngle": 321,
+      "mainLightIntensity": 6.5
+    },
+    "culture": {
+      "shape": {
+        "text": "伞身轻便，伞面施油较厚，整体呈现传统民间艺术风格。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "size": "",
+      "materials": {
+        "text": "主要使用泸州当地的桐油、楠竹、水竹、岩桐木和皮纸制作。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternTheme": {
+        "text": "伞面以绘画与题诗相结合的装饰为特色，具有浓郁的乡土气息。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternMeaning": ""
+   }
+   },
+ 
+   {
+   "id": "yuhang-oil-paper",
+   "name": "余杭油纸伞",
+    "alias": "",
+    "origin": "",
+    "geometry": {
+      "ribCount": 28,
+      "ribLength": 2.8,
+      "canopyRise": 0.24,
+      "openAmount": 0.9,
+      "shaftLength": 4.1
+    },
+    "material": {
+      "canopyTexture": "assets/patterns/plum-ink.png",
+      "canopyColor": "#e6d8b8",
+      "transmission": 0.3,
+      "roughness": 0.82,
+      "ribColor": "#75643f"
+    },
+    "lighting": {
+      "mainLightAngle": 321,
+      "mainLightIntensity": 6.5
+    },
+    "culture": {
+      "shape": {
+        "text": "伞身轻便，伞面施油较厚，整体呈现传统民间艺术风格。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "size": "",
+      "materials": {
+        "text": "主要使用泸州当地的桐油、楠竹、水竹、岩桐木和皮纸制作。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternTheme": {
+        "text": "伞面以绘画与题诗相结合的装饰为特色，具有浓郁的乡土气息。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternMeaning": ""
+    },
+    "craftSteps": [
+      {
+        "name": "选材",
+        "desc": "一般认为，先按用途挑选楠竹、水竹、岩桐木、皮纸与桐油，并剔除开裂、虫蛀或受潮材料。材料决定骨架韧性和伞面附油效果，选料不稳会使成伞易变形、霉裂或漏雨。",
+        "image": "assets/craft/craft-01.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "锯托",
+        "desc": "一般认为，把竹木加工成伞骨、中棒及上下伞托，并控制各骨片长短、厚薄一致。锯削和打孔决定骨架能否均匀受力；尺寸偏差会造成开合卡滞、伞缘高低不齐，甚至折骨。",
+        "image": "assets/craft/craft-02.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "穿绞",
+        "desc": "一般认为，将伞骨按等距装入伞托，再用线绞联，使骨架能够同步张合。穿线松紧必须一致；过松会使骨架晃动，过紧则会妨碍开合，并可能让骨片或连接处过早损坏。",
+        "image": "assets/craft/craft-03.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "网边",
+        "desc": "一般认为，沿伞骨外缘缠线并固定伞边，使各骨末端保持均匀间距，同时为纸面边缘提供支撑。网边不匀会拉偏伞形，扎得不牢则容易在反复开合或受风时松脱、撕边。",
+        "image": "assets/craft/craft-04.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "糊纸",
+        "desc": "一般认为，将皮纸裁成适合伞面的若干片，湿润后分层贴覆在展开的骨架上，并压平接缝。纸层与张力必须均匀；糊得过紧易干裂，接缝不实会起皱、脱层并削弱挡雨能力。",
+        "image": "assets/craft/craft-05.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "绘图",
+        "desc": "一般认为，在纸面干燥稳定后印制或绘制纹样，控制图案位置、墨色和纸面含水。若纸面未干或落笔过重，颜料可能洇散、图形错位，也会影响随后上油时的综合色泽。",
+        "image": "assets/craft/craft-06.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”拨云见日迎油纸伞新生》https://sc.people.com.cn/BIG5/n2/2023/1204/c345528-40664560.html"
+      },
+      {
+        "name": "幌油",
+        "desc": "一般认为，将桐油均匀涂覆伞面，使油料渗入纸层并形成连续保护层，再等待表面稳定。涂得厚薄不一会出现色斑和黏连，漏涂处则难以抵挡雨水，收拢时也更易粘纸。",
+        "image": "assets/craft/craft-07.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "箍烤",
+        "desc": "一般认为，用箍固定收拢后的伞形并进行适度烘烤，使纸面折痕、伞缘和骨架形态稳定，最后检查开合。温度或受力不均会使纸面焦脆、起皱或骨架歪斜，成伞便难以顺畅张合。",
+        "image": "assets/craft/craft-08.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”拨云见日迎油纸伞新生》https://sc.people.com.cn/BIG5/n2/2023/1204/c345528-40664560.html"
+      }
+    ]
+    },
+    {
+      "id": "jiangnan-silk-umbrella",
+      "name": "江南绸伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 36,
+        "ribLength": 2.9,
+        "canopyRise": 0.22,
+        "openAmount": 0.92,
+        "shaftLength": 4.0
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/westlake-ink.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "本馆“江南绸伞”以西湖绸伞为文化参照。西湖绸伞主体由伞骨和伞面组成，伞骨采用不用黏合剂的套合技艺，整体造型轻盈、制作精细。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（西湖绸伞）》https://www.ihchina.cn/project_details/14578.html"
+        },
+        "size": {
+          "text": "一般认为，本馆模型采用中等偏大的展示比例，但目前未找到可用于确定西湖绸伞典型尺寸的权威记录【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "西湖绸伞使用杭州淡竹制作伞骨，以杭州丝绸制作伞面。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（西湖绸伞）》https://www.ihchina.cn/project_details/14578.html"
+        },
+        "patternTheme": {
+          "text": "传统西湖绸伞常以西湖风景为装饰，也使用传统国画技法表现仕女、花鸟等题材。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（西湖绸伞）》https://www.ihchina.cn/project_details/14578.html"
+        },
+        "patternMeaning": {
+          "text": "一般认为，本馆采用水墨山水纹，是为了延续西湖绸伞以地方风景入画的装饰思路；当前图案是否属于传统定型纹样仍待确认【待核实】",
+          "level": "推断",
+          "_source": null
+        }
+      },
+      "craftSteps": []
+    },
+    {
+      "id": "huizhou-ink-umbrella",
+      "name": "徽州墨伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 30,
+        "ribLength": 2.7,
+        "canopyRise": 0.26,
+        "openAmount": 0.88,
+        "shaftLength": 4.3
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/plum-ink.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "一般认为，“徽州墨伞”是本馆为表现徽州意象与水墨装饰而设置的策展名称，目前未查到它作为独立传统伞种的权威认定【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "size": {
+          "text": "一般认为，这一模型采用适合日常持用的中等比例，但尚无“徽州墨伞”典型尺寸的地方志或藏品记录可供核对【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "一般认为，若按传统油纸伞结构制作，可采用竹骨、纸面和桐油；但尚无资料证明这是“徽州墨伞”的固定用材【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "patternTheme": {
+          "text": "一般认为，本馆以墨梅作为这一策展条目的纹样主题，用来营造清淡、疏朗的水墨气质；其与徽州传统伞饰的关系尚待查证【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "patternMeaning": {
+          "text": "一般认为，墨梅在此用于表达清雅与坚韧，但尚未找到能证明这一寓意属于徽州传统伞饰语境的可靠来源【待核实】",
+          "level": "推断",
+          "_source": null
+        }
+      },
+      "craftSteps": []
+    },
+    {
+      "id": "buddhist-offering-umbrella",
+      "name": "佛前供伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 48,
+        "ribLength": 3.1,
+        "canopyRise": 0.3,
+        "openAmount": 0.95,
+        "shaftLength": 4.6
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/lotus-scroll.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "宗教华盖通常呈圆伞状，上设宝珠状饰件，下方可设环状布幔，用于宗教游行或悬于神明上方；本馆佛前供伞以此类伞状陈设为形制参照。",
+          "level": "史实",
+          "_source": "内政部全国宗教资讯网：《华盖》https://religion.moi.gov.tw/Knowledge/Content?ci=2&cid=550"
+        },
+        "size": {
+          "text": "一般认为，佛前供伞的大小会随供奉空间与陈设方式调整，目前没有可对应本馆模型的典型尺寸依据【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "一般认为，华盖可使用织物、刺绣和支撑骨架制作，但本馆这件供伞应采用何种固定材料组合尚无确切记录【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "patternTheme": {
+          "text": "精致华盖可饰以番莲蔓草等吉祥图案；本馆采用莲花卷草纹与这一装饰传统相呼应。",
+          "level": "史实",
+          "_source": "内政部全国宗教资讯网：《华盖》https://religion.moi.gov.tw/Knowledge/Content?ci=2&cid=550"
+        },
+        "patternMeaning": {
+          "text": "宝盖与莲花均属于佛教八吉祥所列的吉祥宝物，本馆以莲花卷草纹呈现供养器物的庄严感。",
+          "level": "史实",
+          "_source": "国立故宫博物院典藏资料检索：《掐丝珐琅八吉祥（宝盖）》https://digitalarchive.npm.gov.tw/Collection/Detail/48161?dep=U"
+        }
+      },
+      "craftSteps": []
+    },
+    {
+      "id": "official-ceremony-umbrella",
+      "name": "官礼用伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 20,
+        "ribLength": 3.4,
+        "canopyRise": 0.16,
+        "openAmount": 0.86,
+        "shaftLength": 5.0
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/crane-cloud.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "古代伞又有“盖”“华盖”“伞盖”等名称；帝王和贵官出巡时常由侍从执伞随行，使伞成为仪仗的一部分。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+        },
+        "size": {
+          "text": "一般认为，礼仪用伞的大小会随使用者等级和仪制变化；本馆条目未限定具体朝代，因此无法给出可信的典型尺寸【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "古代伞面曾使用丝绸；南北朝时期，北魏君主、臣僚出行所用的伞盖以罗帛制成。本馆官礼用伞以这一材料史实作为文化参照。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+        },
+        "patternTheme": {
+          "text": "一般认为，本馆使用鹤云纹表现礼仪器物的庄重感；尚无资料证明鹤云纹是官礼用伞的固定纹样【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "patternMeaning": {
+          "text": "一般认为，鹤与云的组合可用于吉祥表达，但其在官礼用伞上的具体制度含义尚无可靠依据【待核实】",
+          "level": "推断",
+          "_source": null
+        }
+      },
+      "craftSteps": []
+    },
+    {
+      "id": "wedding-festival-umbrella",
+      "name": "婚俗喜伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 32,
+        "ribLength": 3.0,
+        "canopyRise": 0.28,
+        "openAmount": 0.94,
+        "shaftLength": 4.2
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/bat-fortune.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "中国非物质文化遗产网记载，分水油纸伞是民间举办婚庆时常用的物品；本馆婚俗喜伞以可张可收的油纸伞为形制参照。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+        },
+        "size": {
+          "text": "一般认为，婚俗喜伞的尺寸会随地方习俗和仪式用途变化，目前未找到可作为统一典型尺寸的权威记录【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "本馆婚俗喜伞以分水油纸伞为文化参照；后者使用桐油、楠竹、水竹、岩桐木和皮纸等材料制作。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+        },
+        "patternTheme": {
+          "text": "本馆采用蝙蝠纹作为喜庆主题；传统装饰中常借“蝠”与“福”的谐音，以蝙蝠表示福意。",
+          "level": "史实",
+          "_source": "故宫博物院：《吉祥图案》https://www.dpm.org.cn/lemmas/241317.html"
+        },
+        "patternMeaning": {
+          "text": "蝙蝠纹以谐音寓福，用于表达迎福纳吉的愿望；本馆借此呈现婚庆祝福。",
+          "level": "史实",
+          "_source": "文化和旅游部恭王府博物馆：《恭王府博物馆举办迎春送福民俗文化活动》https://www.mct.gov.cn/whzx/zsdw/whbgwfglzx/202402/t20240208_951296.html"
+        }
+      },
+      "craftSteps": []
+    },
+    {
+      "id": "scholar-small-umbrella",
+      "name": "文人小伞",
+      "alias": "",
+      "origin": "",
+      "geometry": {
+        "ribCount": 18,
+        "ribLength": 2.2,
+        "canopyRise": 0.14,
+        "openAmount": 0.82,
+        "shaftLength": 3.3
+      },
+      "material": {
+        "canopyTexture": "assets/patterns/rain-bamboo.png",
+        "canopyColor": "#c49a55",
+        "transmission": 0.24,
+        "roughness": 0.88,
+        "ribColor": "#6f7a45"
+      },
+      "lighting": {
+        "mainLightAngle": 321,
+        "mainLightIntensity": 6.5
+      },
+      "culture": {
+        "shape": {
+          "text": "一般认为，本馆“文人小伞”是依据油纸伞题诗作画传统设置的策展分类，并非已经确认的独立传统伞种【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "size": {
+          "text": "一般认为，小型伞便于近距离赏玩和展示书画，但尚未找到传统“文人小伞”的标准尺寸记录【待核实】",
+          "level": "推断",
+          "_source": null
+        },
+        "materials": {
+          "text": "传统油纸伞可用棉纸制作伞面、以楠竹制作伞骨，并在纸面刷桐油；本馆以此作为文人小伞的材料参照。",
+          "level": "史实",
+          "_source": "《人民周刊》潘春华：《闲话油纸伞》http://paper.people.com.cn/rmzk/html/2020-01/21/content_1968215.htm"
+        },
+        "patternTheme": {
+          "text": "油纸伞有在伞面题诗作画的装饰传统；本馆采用雨竹水墨纹，突出书画气息。",
+          "level": "史实",
+          "_source": "《人民周刊》潘春华：《闲话油纸伞》http://paper.people.com.cn/rmzk/html/2020-01/21/content_1968215.htm"
+        },
+        "patternMeaning": {
+          "text": "竹子因虚心劲节、弯而不屈而受到文人喜爱，并常被比作君子；本馆借雨竹纹表达这一文化联想。",
+          "level": "史实",
+          "_source": "中国非物质文化遗产网：《竹刻艺术浅谈：中国工艺美术史上一朵淡雅的奇葩》https://www.ihchina.cn/art/detail/id/10961.html"
+        }
+      },
+      "craftSteps": []
+    }
+  ]
+}

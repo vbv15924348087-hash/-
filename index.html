@@ -1,0 +1,1575 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>古伞文化馆 · 八伞藏馆</title>
+    <meta
+      name="description"
+      content="一座关于中国古伞工艺与纹样的线上文化馆：八把油纸伞，形制、工艺与纹样尽收其中。"
+    />
+    <link rel="icon" type="image/svg+xml" href="./assets/misc/favicon.svg" />
+
+    <!-- 分享信息：浏览器标签、社交平台与聊天工具统一读取同一套标题、描述和封面。 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="古伞文化馆" />
+    <meta property="og:title" content="古伞文化馆 · 八伞藏馆" />
+    <meta property="og:description" content="一座关于中国古伞工艺与纹样的线上文化馆：八把油纸伞，形制、工艺与纹样尽收其中。" />
+    <meta property="og:image" content="./assets/misc/share-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="古伞文化馆 · 八伞藏馆" />
+    <meta name="twitter:description" content="一座关于中国古伞工艺与纹样的线上文化馆：八把油纸伞，形制、工艺与纹样尽收其中。" />
+    <meta name="twitter:image" content="./assets/misc/share-cover.png" />
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+        background: #18201d;
+        color: #eee5d1;
+
+        /* 信息面板共用样式：以后调整字号、行距或状态，只改这里。 */
+        --panel-font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+        --panel-font-size-small: 13px;
+        --panel-font-size-label: 14px;
+        --panel-font-size-body: 15px;
+        --panel-font-size-heading: 16px;
+        --panel-line-height: 1.75;
+        --panel-font-weight-normal: 400;
+        --panel-font-weight-medium: 500;
+        --panel-font-weight-strong: 600;
+        --panel-background: #18201d;
+        --panel-text: #b8b9ae;
+        --panel-text-muted: #92978e;
+        --panel-text-strong: #f3ead7;
+        --panel-heading: #d9caa7;
+        --panel-accent: #9ca772;
+        --panel-border-color: rgb(238 229 209 / 14%);
+        --panel-border-width: 1px;
+        --panel-radius: 2px;
+        --panel-hover-background: rgb(238 229 209 / 6%);
+        --panel-selected-background: rgb(111 122 69 / 18%);
+        --panel-transition-duration: 160ms;
+
+        /* 两块面板只在密度上使用不同间距。 */
+        --panel-compact-gap: 6px;
+        --panel-compact-padding: 10px 12px;
+        --panel-reading-gap: 22px;
+        --panel-reading-padding: 22px;
+
+        /* 文化解说区的三级文字与四倍数间距。 */
+        --culture-font-size-title: 18px;
+        --culture-font-size-body: 14px;
+        --culture-font-size-note: 11px;
+        --culture-line-height-title: 24px;
+        --culture-line-height-body: 24px;
+        --culture-line-height-note: 16px;
+        --culture-space-2: 8px;
+        --culture-space-3: 12px;
+        --culture-space-4: 16px;
+        --culture-space-5: 20px;
+        --culture-space-6: 24px;
+        --culture-space-8: 32px;
+        --culture-space-10: 40px;
+        --culture-space-12: 48px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-width: 320px;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      /* 加载提示：任何脚本或资源就绪前先占据整屏，避免白屏空等。 */
+      .loading-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: grid;
+        place-items: center;
+        background: #0c120f;
+        transition: opacity 420ms ease;
+      }
+
+      .loading-screen.is-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loading-screen__card {
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+        padding: 0 24px;
+        text-align: center;
+      }
+
+      .loading-screen__title {
+        margin: 0;
+        color: #d9caa7;
+        font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+        font-size: 20px;
+        letter-spacing: 0.28em;
+      }
+
+      .loading-screen__label {
+        margin: 0;
+        color: rgb(184 185 174 / 82%);
+        font-family: "Noto Serif SC", "Songti SC", SimSun, serif;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        animation: loading-breathe 2200ms ease-in-out infinite;
+      }
+
+      .loading-screen__track {
+        width: min(240px, 64vw);
+        height: 2px;
+        overflow: hidden;
+        background: rgb(217 202 167 / 18%);
+      }
+
+      .loading-screen__bar {
+        width: 0%;
+        height: 100%;
+        background: #c8b37a;
+        box-shadow: 0 0 10px rgb(214 183 109 / 55%);
+        transition: width 460ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      @keyframes loading-breathe {
+        from { opacity: 0.45; }
+        50% { opacity: 1; }
+        to { opacity: 0.45; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .loading-screen__label { animation: none; }
+      }
+
+      /* 首次入馆：完整场景图负责空间，页面只控制曝光和镜头推进。 */
+      .entrance-scene {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        overflow: hidden;
+        background: #020403;
+      }
+
+      .entrance-scene__world,
+      .entrance-scene__veil,
+      .entrance-scene__light-wash {
+        position: absolute;
+        inset: 0;
+      }
+
+      .entrance-scene__world {
+        background: #07100e url("./assets/misc/museum-entrance.png") center / cover no-repeat;
+        filter: brightness(0.045) saturate(0.72);
+        transform: scale(1.075);
+        transform-origin: center 54%;
+        transition:
+          filter 4800ms ease,
+          transform 7600ms cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 320ms ease;
+        will-change: filter, transform, opacity;
+      }
+
+      /* 左廊暖光先苏醒，再成为镜头前进的方向。 */
+      .entrance-scene__guide-light {
+        position: absolute;
+        inset: -12%;
+        background:
+          radial-gradient(ellipse at 25% 52%, rgb(255 218 145 / 46%) 0, rgb(223 171 83 / 18%) 17%, transparent 42%),
+          radial-gradient(ellipse at 28% 79%, rgb(239 190 103 / 31%) 0, rgb(204 145 61 / 11%) 20%, transparent 43%);
+        filter: blur(26px);
+        mix-blend-mode: screen;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.74);
+        transform-origin: 25% 58%;
+        will-change: opacity, transform;
+      }
+
+      .entrance-scene__veil {
+        z-index: 2;
+        background: #010302;
+        opacity: 0.9;
+        pointer-events: none;
+        transition: opacity 4200ms ease;
+      }
+
+      /* 暖光铺满镜头，在最亮处让下一场景从光里显现。 */
+      .entrance-scene__light-wash {
+        z-index: 3;
+        background:
+          radial-gradient(ellipse at 27% 55%, rgb(255 247 218 / 88%) 0, rgb(246 218 164 / 68%) 22%, rgb(222 177 102 / 30%) 49%, transparent 74%),
+          linear-gradient(110deg, rgb(255 244 211 / 46%), rgb(232 198 136 / 22%) 52%, rgb(203 165 99 / 8%));
+        filter: blur(30px);
+        mix-blend-mode: screen;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.52);
+        transform-origin: 27% 55%;
+        will-change: opacity, transform;
+      }
+
+      .entrance-threshold {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        color: #e1c990;
+        background: transparent;
+        border: 0;
+        outline: none;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      .entrance-threshold__prompt {
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        display: grid;
+        gap: 12px;
+        min-width: 140px;
+        font-size: 13px;
+        letter-spacing: 0.38em;
+        text-shadow: 0 2px 16px rgb(0 0 0 / 94%);
+        opacity: 0;
+        transform: translate(-50%, 14px);
+        transition: opacity 1100ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .entrance-threshold__prompt::before {
+        width: 42px;
+        height: 1px;
+        margin: 0 auto;
+        content: "";
+        background: #d7b66d;
+        box-shadow: 0 0 18px rgb(225 181 90 / 52%);
+        animation: entrance-guide 2100ms ease-in-out infinite alternate;
+      }
+
+      .entrance-scene.is-awake .entrance-scene__world {
+        filter: brightness(0.88) saturate(0.84);
+        transform: scale(1.025);
+      }
+
+      .entrance-scene.is-awake .entrance-scene__veil {
+        opacity: 0.04;
+      }
+
+      .entrance-scene.is-ready .entrance-threshold {
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .entrance-scene.is-ready .entrance-threshold__prompt {
+        opacity: 0.88;
+        transform: translate(-50%, 0);
+      }
+
+      .entrance-scene.is-ready .entrance-threshold:hover .entrance-threshold__prompt,
+      .entrance-scene.is-ready .entrance-threshold:focus-visible .entrance-threshold__prompt {
+        color: #f3dca4;
+        opacity: 1;
+      }
+
+      .entrance-scene.is-entering {
+        pointer-events: none;
+      }
+
+      .entrance-scene.is-entering .entrance-scene__world {
+        filter: brightness(1.03) saturate(0.92);
+        transform: scale(1.24) translateX(5%) translateY(1.4%);
+        transform-origin: 25% 56%;
+        transition:
+          filter 3200ms ease 300ms,
+          transform 4800ms cubic-bezier(0.22, 1, 0.36, 1) 480ms,
+          opacity 320ms ease;
+      }
+
+      .entrance-scene.is-entering .entrance-scene__guide-light {
+        opacity: 0.72;
+        transform: scale(1.24);
+        transition:
+          opacity 1700ms ease 100ms,
+          transform 3900ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+      }
+
+      .entrance-scene.is-entering .entrance-scene__veil {
+        opacity: 0;
+      }
+
+      .entrance-scene.is-entering .entrance-threshold__prompt {
+        opacity: 0;
+        transform: translate(-50%, -12px);
+      }
+
+      .entrance-scene.is-entering .entrance-scene__light-wash {
+        opacity: 0.72;
+        transform: scale(2.15);
+        transition:
+          opacity 1500ms ease 2900ms,
+          transform 1950ms cubic-bezier(0.22, 1, 0.36, 1) 2700ms;
+      }
+
+      /* 光最盛时撤去入口画面，后方展厅仍由同一层暖光遮住。 */
+      .entrance-scene.is-product-reveal {
+        background: transparent;
+      }
+
+      .entrance-scene.is-product-reveal .entrance-scene__world {
+        opacity: 0;
+      }
+
+      .entrance-scene.is-product-reveal .entrance-scene__veil {
+        opacity: 0;
+      }
+
+      .entrance-scene.is-light-clearing .entrance-scene__light-wash {
+        opacity: 0;
+        transform: scale(2.42);
+        transition:
+          opacity 1600ms ease,
+          transform 1600ms ease;
+      }
+
+      @keyframes entrance-guide {
+        from { opacity: 0.34; transform: scaleX(0.62); }
+        to { opacity: 1; transform: scaleX(1); }
+      }
+
+      @media (max-width: 700px) {
+        .entrance-scene__world { background-position: 52% center; }
+        .entrance-threshold__prompt { bottom: 11%; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .entrance-scene,
+        .entrance-scene *,
+        .entrance-scene *::before,
+        .entrance-scene *::after {
+          animation-duration: 1ms !important;
+          transition-duration: 180ms !important;
+          transition-delay: 0ms !important;
+        }
+      }
+
+      /* 撑伞入境：不做按钮，只在伞柄附近保留可拖动的握持区域。 */
+      .awakening-scene {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .awakening-scene__air,
+      .awakening-scene__pattern {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .awakening-scene__air {
+        background:
+          radial-gradient(ellipse at 48% 59%, rgb(218 173 91 / 15%), transparent 18%),
+          radial-gradient(ellipse at 48% 58%, rgb(181 142 73 / 8%), transparent 38%);
+        filter: blur(18px);
+        opacity: 0;
+        transform: scale(0.82);
+        transition: opacity 1800ms ease, transform 2200ms ease;
+      }
+
+      .awakening-scene.is-approaching .awakening-scene__air {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+
+      .awakening-scene__grip {
+        position: absolute;
+        bottom: 7%;
+        left: 48%;
+        width: 150px;
+        height: 48%;
+        pointer-events: none;
+        touch-action: none;
+        transform: translateX(-50%);
+      }
+
+      .awakening-scene__grip:focus {
+        outline: none;
+      }
+
+      .awakening-scene__grip:focus-visible {
+        outline: 2px solid rgb(217 202 167 / 80%);
+        outline-offset: 4px;
+      }
+
+      .awakening-scene.is-ready .awakening-scene__grip,
+      .awakening-scene.is-dragging .awakening-scene__grip {
+        cursor: ns-resize;
+        pointer-events: auto;
+      }
+
+      .awakening-scene__grip::before {
+        position: absolute;
+        bottom: 2%;
+        left: 50%;
+        width: 26px;
+        height: 72%;
+        content: "";
+        background: linear-gradient(to top, transparent, rgb(220 172 82 / 16%) 42%, rgb(246 210 137 / 7%), transparent);
+        filter: blur(9px);
+        opacity: 0;
+        transform: translateX(-50%) scaleY(0.72);
+        transform-origin: center bottom;
+        transition: opacity 1400ms ease, transform 1800ms ease;
+      }
+
+      .awakening-scene.is-ready .awakening-scene__grip::before,
+      .awakening-scene.is-dragging .awakening-scene__grip::before {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1);
+      }
+
+      .awakening-scene__hint {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 190px;
+        color: rgb(225 204 156 / 76%);
+        font-size: 13px;
+        letter-spacing: 0.22em;
+        text-align: center;
+        text-shadow: 0 2px 14px rgb(0 0 0 / 90%);
+        opacity: 0;
+        transform: translate(-50%, 12px);
+        transition: opacity 1000ms ease, transform 1000ms ease;
+      }
+
+      .awakening-scene.is-ready .awakening-scene__hint {
+        opacity: 0.82;
+        transform: translate(-50%, 0);
+      }
+
+      .awakening-scene.is-dragging .awakening-scene__hint,
+      .awakening-scene.is-portal .awakening-scene__hint {
+        opacity: 0;
+      }
+
+      .awakening-scene__pattern {
+        display: none;
+      }
+
+      /* 八伞藏馆只提供安静的空间标识，不覆盖三维藏品。 */
+      .collection-hall-ui {
+        position: fixed;
+        inset: 0;
+        z-index: 18;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .collection-hall-ui__title {
+        position: absolute;
+        top: 46%;
+        left: 50%;
+        display: grid;
+        gap: 8px;
+        color: rgb(222 204 159 / 82%);
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 0.34em;
+        text-align: center;
+        text-shadow: 0 2px 18px rgb(0 0 0 / 88%);
+        opacity: 0;
+        transform: translate(-50%, 12px);
+        transition: opacity 1500ms ease, transform 1500ms ease;
+      }
+
+      .collection-hall-ui__title small {
+        color: rgb(173 184 156 / 58%);
+        font-size: 10px;
+        letter-spacing: 0.25em;
+      }
+
+      .collection-hall-ui.is-ready .collection-hall-ui__title {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .collection-hall-ui__caption {
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        display: grid;
+        gap: 6px;
+        min-width: 260px;
+        padding: 14px 24px;
+        border-top: 1px solid rgb(184 165 112 / 34%);
+        color: rgb(237 220 177 / 90%);
+        font-size: 17px;
+        letter-spacing: 0.12em;
+        text-align: center;
+        text-shadow: 0 2px 16px rgb(0 0 0 / 92%);
+        opacity: 0;
+        transform: translate(-50%, 12px);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+
+      .collection-hall-ui__caption small {
+        color: rgb(183 191 169 / 66%);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+      }
+
+      .collection-hall-ui.has-focus .collection-hall-ui__caption {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .collection-hall-ui__light-cut {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background:
+          radial-gradient(circle at 50% 48%, rgb(247 224 173 / 76%), rgb(197 153 85 / 25%) 30%, transparent 62%);
+        filter: blur(24px);
+        opacity: 0;
+        transform: scale(0.64);
+        transition: opacity 1000ms ease, transform 1300ms ease;
+      }
+
+      .collection-hall-ui__blackout {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        background: #050807;
+        opacity: 0;
+        transition: opacity 820ms cubic-bezier(0.45, 0, 0.55, 1);
+        pointer-events: none;
+      }
+
+      .collection-hall-ui.is-blackout .collection-hall-ui__blackout {
+        opacity: 1;
+      }
+
+      .collection-hall-ui.is-blackout .collection-hall-ui__title,
+      .collection-hall-ui.is-blackout .collection-hall-ui__caption,
+      .collection-hall-ui.is-awakening-bridge .collection-hall-ui__title,
+      .collection-hall-ui.is-awakening-bridge .collection-hall-ui__caption,
+      .collection-hall-ui.is-returning .collection-hall-ui__title,
+      .collection-hall-ui.is-returning .collection-hall-ui__caption {
+        opacity: 0 !important;
+        transform: translate(-50%, 12px) !important;
+      }
+
+      .collection-hall-ui.is-entering-item .collection-hall-ui__light-cut {
+        opacity: 1;
+        transform: scale(1.65);
+      }
+
+      .collection-hall-ui.is-clearing .collection-hall-ui__light-cut {
+        opacity: 0;
+        transform: scale(1.9);
+        transition: opacity 900ms ease, transform 900ms ease;
+      }
+
+      body.is-collection-intro .immersive-entry,
+      body.is-collection-intro .stage-controls {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* 环形藏馆只保留空间探索；三类单伞工具进入藏品后再恢复。 */
+      body.is-collection-hall .catalog-trigger,
+      body.is-collection-hall .culture-trigger,
+      body.is-collection-hall .stage-controls {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @media (max-width: 700px) {
+        .awakening-scene__grip {
+          bottom: 10%;
+          left: 50%;
+          height: 43%;
+        }
+
+        .awakening-scene__hint { bottom: 3%; }
+      }
+      .museum-layout {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        width: 100%;
+        height: 100%;
+        background: #78807e;
+      }
+
+      .catalog {
+        position: relative;
+        z-index: 1;
+        padding: 42px 24px;
+        overflow-y: auto;
+        color: var(--panel-text);
+        font-family: var(--panel-font-family);
+        background: var(--panel-background);
+        border-right: var(--panel-border-width) solid var(--panel-border-color);
+        box-shadow: 12px 0 30px rgb(18 24 22 / 16%);
+      }
+
+      .catalog__title {
+        margin: 0 0 28px;
+        color: var(--panel-heading);
+        font-size: var(--panel-font-size-label);
+        font-weight: var(--panel-font-weight-medium);
+        line-height: var(--panel-line-height);
+        letter-spacing: 0.2em;
+      }
+
+      .catalog__list {
+        display: grid;
+        gap: var(--panel-compact-gap);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .catalog__item {
+        width: 100%;
+        padding: var(--panel-compact-padding);
+        color: var(--panel-text);
+        font-size: var(--panel-font-size-body);
+        font-weight: var(--panel-font-weight-normal);
+        line-height: var(--panel-line-height);
+        text-align: left;
+        background: transparent;
+        border: var(--panel-border-width) solid transparent;
+        border-radius: var(--panel-radius);
+        cursor: pointer;
+        transition: color var(--panel-transition-duration) ease,
+          border-color var(--panel-transition-duration) ease,
+          background-color var(--panel-transition-duration) ease;
+      }
+
+      .content-area {
+        display: grid;
+        grid-template-rows: 73% 27%;
+        min-width: 0;
+        min-height: 0;
+      }
+
+      .stage {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        background: #8b9291;
+        overflow: hidden;
+      }
+
+      .stage canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .stage-controls {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        bottom: auto;
+        z-index: 2;
+        width: min(340px, calc(100% - 48px));
+        max-height: calc(100% - 40px);
+        padding: 18px;
+        overflow-y: auto;
+        color: #eee5d1;
+        font-family: system-ui, sans-serif;
+        font-size: 13px;
+        background: rgb(24 32 29 / 88%);
+        border: 1px solid rgb(238 229 209 / 12%);
+        box-shadow: -12px 0 28px rgb(0 0 0 / 18%);
+        transform: translateY(-50%);
+        transition: transform 240ms ease;
+      }
+
+      .stage-controls__toggle {
+        position: absolute;
+        top: 50%;
+        left: -38px;
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 64px;
+        padding: 0;
+        color: #d9caa7;
+        font-size: 24px;
+        line-height: 1;
+        background: rgb(24 32 29 / 92%);
+        border: 1px solid rgb(238 229 209 / 16%);
+        border-right: 0;
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: color 160ms ease, background-color 160ms ease;
+      }
+
+      .stage-controls__toggle:hover,
+      .stage-controls__toggle:focus-visible {
+        color: #fff5dc;
+        background: #26302c;
+        outline: none;
+      }
+
+      /* 展开后把关闭箭头收进面板内部，避免被滚动区域裁掉。 */
+      .stage-controls:not(.is-collapsed) .stage-controls__toggle {
+        top: 0;
+        right: 0;
+        left: auto;
+        width: 38px;
+        height: 38px;
+        border-right: 1px solid rgb(238 229 209 / 16%);
+        transform: none;
+      }
+
+      .stage-controls.is-collapsed {
+        overflow: visible;
+        transform: translate(100%, -50%);
+      }
+
+      .control-console__title {
+        margin: 0 0 14px;
+        color: #eee5d1;
+        font-family: var(--panel-font-family);
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+      }
+
+      .control-group {
+        border-top: 1px solid rgb(238 229 209 / 12%);
+      }
+
+      .control-group:last-child {
+        border-bottom: 1px solid rgb(238 229 209 / 12%);
+      }
+
+      .control-group__summary {
+        padding: 13px 2px;
+        color: #d9caa7;
+        font-family: var(--panel-font-family);
+        font-size: 14px;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .control-group__summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .control-group__summary::after {
+        float: right;
+        content: "+";
+        color: #92978e;
+      }
+
+      .control-group[open] .control-group__summary::after {
+        content: "−";
+      }
+
+      .control-group__body {
+        display: grid;
+        gap: 13px;
+        padding: 0 2px 16px;
+      }
+
+      .stage-control {
+        display: grid;
+        grid-template-columns: 54px minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stage-control--light {
+        grid-template-columns: 64px minmax(0, 1fr) 38px;
+      }
+
+      .stage-control--value {
+        grid-template-columns: 64px minmax(0, 1fr) 42px;
+      }
+
+      .stage-control output {
+        color: #b8b9ae;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+      }
+
+      .stage-control label {
+        color: #d9caa7;
+      }
+
+      .stage-control input,
+      .stage-control select {
+        width: 100%;
+        accent-color: #9ca772;
+      }
+
+      .stage-control input[type="color"] {
+        height: 32px;
+        padding: 2px;
+        background: #26302c;
+        border: 1px solid rgb(238 229 209 / 20%);
+      }
+
+      .stage-control select {
+        min-width: 0;
+        padding: 7px 9px;
+        overflow: hidden;
+        color: #eee5d1;
+        text-overflow: ellipsis;
+        background: #26302c;
+        border: 1px solid rgb(238 229 209 / 20%);
+      }
+
+      .culture {
+        min-height: 0;
+        padding: 0 34px 20px;
+        overflow-y: auto;
+        color: var(--panel-text);
+        font-family: var(--panel-font-family);
+        background: var(--panel-background);
+        border-top: var(--panel-border-width) solid var(--panel-border-color);
+      }
+
+      .culture__tabs {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        gap: var(--culture-space-2);
+        padding: var(--culture-space-3) 0 var(--culture-space-2);
+        background: var(--panel-background);
+        border-bottom: var(--panel-border-width) solid var(--panel-border-color);
+      }
+
+      .culture__tab {
+        padding: 4px var(--culture-space-3);
+        color: var(--panel-text);
+        font-size: var(--culture-font-size-title);
+        font-weight: var(--panel-font-weight-medium);
+        line-height: var(--culture-line-height-title);
+        background: transparent;
+        border: var(--panel-border-width) solid transparent;
+        border-radius: var(--panel-radius);
+        cursor: pointer;
+        transition: color var(--panel-transition-duration) ease,
+          border-color var(--panel-transition-duration) ease,
+          background-color var(--panel-transition-duration) ease;
+      }
+
+      .catalog__item:hover,
+      .catalog__item:focus-visible,
+      .culture__tab:hover,
+      .culture__tab:focus-visible {
+        color: var(--panel-text-strong);
+        background: var(--panel-hover-background);
+        border-color: var(--panel-border-color);
+        outline: none;
+      }
+
+      .catalog__item[aria-current="true"],
+      .culture__tab[aria-selected="true"] {
+        color: var(--panel-text-strong);
+        background: var(--panel-selected-background);
+        border-color: var(--panel-accent);
+      }
+
+      .culture__panel {
+        max-width: 960px;
+        padding-top: var(--culture-space-4);
+      }
+
+      .culture__panel[hidden] {
+        display: none;
+      }
+
+      .culture-entry {
+        max-width: 760px;
+        margin: 0 0 var(--culture-space-6);
+      }
+
+      .culture__text {
+        margin: 0;
+        color: var(--panel-text);
+        font-size: var(--culture-font-size-body);
+        font-weight: var(--panel-font-weight-normal);
+        line-height: var(--culture-line-height-body);
+      }
+
+      .culture__annotation {
+        margin: var(--culture-space-2) 0 0;
+        color: var(--panel-text-muted);
+        font-size: var(--culture-font-size-note);
+        font-weight: var(--panel-font-weight-normal);
+        line-height: var(--culture-line-height-note);
+        overflow-wrap: anywhere;
+      }
+
+      .craft-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--culture-space-8) var(--culture-space-10);
+      }
+
+      .craft-step {
+        display: grid;
+        grid-template-columns: 144px minmax(0, 1fr);
+        gap: var(--culture-space-4);
+        align-items: start;
+      }
+
+      .craft-step__image {
+        display: block;
+        width: 144px;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: var(--panel-hover-background);
+        border: var(--panel-border-width) solid var(--panel-border-color);
+        border-radius: var(--panel-radius);
+      }
+
+      .craft-step__name {
+        margin: 0 0 var(--culture-space-2);
+        color: var(--panel-text-strong);
+        font-size: var(--culture-font-size-title);
+        font-weight: var(--panel-font-weight-strong);
+        line-height: var(--culture-line-height-title);
+      }
+
+      .craft-step__desc {
+        margin: 0;
+        color: var(--panel-text);
+        font-size: var(--culture-font-size-body);
+        font-weight: var(--panel-font-weight-normal);
+        line-height: var(--culture-line-height-body);
+      }
+
+      .catalog__status {
+        margin: 18px 14px 0;
+        color: var(--panel-text-muted);
+        font-family: var(--panel-font-family);
+        font-size: var(--panel-font-size-small);
+        line-height: var(--panel-line-height);
+      }
+
+      /* 沉浸展厅：3D 始终铺满首屏，信息层按需覆盖出现。 */
+      .museum-layout {
+        position: relative;
+        display: block;
+        overflow: hidden;
+      }
+
+      .content-area {
+        position: absolute;
+        inset: 0;
+        display: block;
+      }
+
+      .stage {
+        position: absolute;
+        inset: 0;
+      }
+
+      .catalog {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 30;
+        width: min(280px, 82vw);
+        opacity: 0;
+        box-shadow: 18px 0 48px rgb(0 0 0 / 28%);
+        transform: translateX(-102%);
+        transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+
+      body.is-catalog-open .catalog {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      .catalog__close,
+      .culture__close {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        color: #d9caa7;
+        font-family: var(--panel-font-family);
+        font-size: 13px;
+        background: rgb(111 122 69 / 16%);
+        border: 1px solid rgb(156 167 114 / 62%);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+      }
+
+      .catalog__close {
+        position: absolute;
+        top: 28px;
+        right: 20px;
+      }
+
+      .catalog__close:hover,
+      .culture__close:hover {
+        color: #fff5dc;
+        background: rgb(111 122 69 / 30%);
+        transform: scale(1.04);
+      }
+
+      .culture {
+        position: fixed;
+        right: clamp(20px, 5vw, 80px);
+        bottom: 0;
+        left: clamp(20px, 5vw, 80px);
+        z-index: 28;
+        max-height: min(52vh, 560px);
+        padding: 0 34px 28px;
+        opacity: 0;
+        box-shadow: 0 -18px 54px rgb(0 0 0 / 30%);
+        transform: translateY(104%);
+        transition: opacity 420ms ease, transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+
+      body.is-culture-open .culture {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .culture__close {
+        position: sticky;
+        top: 12px;
+        z-index: 3;
+        float: right;
+        margin: 12px 0 0 16px;
+      }
+
+      .stage-controls {
+        z-index: 32;
+        transition: opacity 360ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .stage-controls.is-collapsed {
+        transform: translate(calc(100% + 28px), -50%);
+      }
+
+      /* 收起后把面板内容移出 Tab 焦点，键盘用户不会 tab 进屏幕外的控件。 */
+      .stage-controls.is-collapsed .control-console__title,
+      .stage-controls.is-collapsed .control-group {
+        visibility: hidden;
+      }
+
+      .stage-controls__toggle {
+        left: -58px;
+        width: 48px;
+        height: 48px;
+        color: #d7c391;
+        font-family: var(--panel-font-family);
+        font-size: 17px;
+        background: rgb(67 33 28 / 72%);
+        border: 1px solid rgb(190 139 102 / 60%);
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 20%), inset 0 0 0 3px rgb(31 40 36 / 28%);
+      }
+
+      .stage-controls:not(.is-collapsed) .stage-controls__toggle {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
+        background: rgb(111 122 69 / 18%);
+        border-color: rgb(156 167 114 / 55%);
+      }
+
+      .immersive-entry {
+        position: fixed;
+        z-index: 20;
+        padding: 0;
+        color: #d9caa7;
+        font-family: var(--panel-font-family);
+        background: rgb(18 26 23 / 56%);
+        border: 0;
+        cursor: pointer;
+        opacity: 0.82;
+        transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+          color 180ms ease, background-color 180ms ease;
+      }
+
+      .immersive-entry:hover,
+      .immersive-entry:focus-visible {
+        color: #fff2cf;
+        opacity: 1;
+        outline: none;
+      }
+
+      .catalog-trigger {
+        top: 50%;
+        left: 14px;
+        width: 42px;
+        min-height: 116px;
+        padding: 18px 9px;
+        writing-mode: vertical-rl;
+        letter-spacing: 0.22em;
+        border: 1px solid rgb(156 167 114 / 42%);
+        border-top-color: rgb(217 202 167 / 72%);
+        border-bottom-color: rgb(217 202 167 / 72%);
+        transform: translateY(-50%);
+      }
+
+      .catalog-trigger::before,
+      .catalog-trigger::after {
+        position: absolute;
+        left: 50%;
+        width: 15px;
+        height: 7px;
+        content: "";
+        border-top: 1px solid rgb(217 202 167 / 48%);
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .catalog-trigger::before { top: 8px; }
+      .catalog-trigger::after { bottom: 8px; transform: translateX(-50%) rotate(180deg); }
+
+      .culture-trigger {
+        bottom: 16px;
+        left: 50%;
+        min-width: 92px;
+        padding: 10px 20px;
+        letter-spacing: 0.24em;
+        border: 1px solid rgb(173 143 91 / 48%);
+        box-shadow: inset 0 0 0 2px rgb(173 143 91 / 8%);
+        transform: translateX(-50%);
+      }
+
+      .fullscreen-trigger {
+        top: 18px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        background-color: transparent;
+        background-image:
+          linear-gradient(#d9caa7, #d9caa7), linear-gradient(#d9caa7, #d9caa7),
+          linear-gradient(#d9caa7, #d9caa7), linear-gradient(#d9caa7, #d9caa7),
+          linear-gradient(#d9caa7, #d9caa7), linear-gradient(#d9caa7, #d9caa7),
+          linear-gradient(#d9caa7, #d9caa7), linear-gradient(#d9caa7, #d9caa7);
+        background-position: left top, left top, right top, right top,
+          left bottom, left bottom, right bottom, right bottom;
+        background-size: 14px 1px, 1px 14px, 14px 1px, 1px 14px,
+          14px 1px, 1px 14px, 14px 1px, 1px 14px;
+        background-repeat: no-repeat;
+      }
+
+      body.is-ui-dormant .immersive-entry,
+      body.is-ui-dormant .stage-controls.is-collapsed,
+      body.is-catalog-open .catalog-trigger,
+      body.is-culture-open .culture-trigger,
+      body.is-fullscreen-view .catalog-trigger,
+      body.is-fullscreen-view .culture-trigger,
+      body.is-fullscreen-view .stage-controls {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      body.is-ui-dormant .catalog-trigger {
+        transform: translate(-18px, -50%);
+      }
+
+      body.is-ui-dormant .culture-trigger {
+        transform: translate(-50%, 18px);
+      }
+
+      body.is-ui-dormant .fullscreen-trigger {
+        transform: translateY(-12px);
+      }
+
+      body.is-fullscreen-view.is-ui-dormant .fullscreen-trigger {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      body.is-fullscreen-view:not(.is-ui-dormant) .fullscreen-trigger {
+        opacity: 0.45;
+      }
+
+      @media (max-width: 700px) {
+        html,
+        body {
+          height: 100%;
+          min-height: 100%;
+        }
+
+        body {
+          overflow: hidden;
+        }
+
+        .museum-layout { height: 100svh; min-height: 100svh; }
+
+        .content-area { height: 100svh; min-height: 100svh; }
+
+        .stage {
+          height: 100svh;
+          min-height: 100svh;
+          max-height: 100svh;
+        }
+
+        .stage canvas {
+          touch-action: none;
+          overscroll-behavior: contain;
+        }
+
+        .stage-controls {
+          width: min(318px, calc(100% - 46px));
+          max-height: calc(100% - 24px);
+          padding: 14px;
+        }
+
+        .stage-control {
+          grid-template-columns: 48px minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .stage-control--light {
+          grid-template-columns: 64px minmax(0, 1fr) 38px;
+        }
+
+        .culture {
+          right: 10px;
+          left: 10px;
+          min-height: 0;
+          max-height: 62svh;
+          padding: 0 16px 32px;
+          overflow-y: auto;
+        }
+
+        .catalog-trigger { left: 8px; }
+        .culture-trigger { bottom: 10px; }
+        .fullscreen-trigger { top: 12px; right: 12px; }
+
+        .culture__tabs {
+          gap: 8px;
+          padding: 16px 0 12px;
+        }
+
+        .culture__panel {
+          padding-top: 24px;
+        }
+
+        .craft-list {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+
+        .craft-step {
+          grid-template-columns: 112px minmax(0, 1fr);
+          gap: 16px;
+        }
+
+        .craft-step__image {
+          width: 112px;
+        }
+      }
+    </style>
+  </head>
+  <body class="is-ui-dormant is-entrance-active">
+    <div class="loading-screen" id="loading-screen" role="status" aria-live="polite">
+      <div class="loading-screen__card">
+        <p class="loading-screen__title">古伞文化馆</p>
+        <p class="loading-screen__label" id="loading-screen__label">正在准备展馆…</p>
+        <div class="loading-screen__track" aria-hidden="true">
+          <div class="loading-screen__bar" id="loading-screen__bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="entrance-scene" id="entrance-scene" aria-label="古伞文化馆入口">
+      <div class="entrance-scene__world" aria-hidden="true">
+        <div class="entrance-scene__guide-light"></div>
+      </div>
+      <button class="entrance-threshold" id="entrance-gate" type="button" aria-label="循光步入展馆" disabled>
+        <span class="entrance-threshold__prompt" aria-hidden="true">循光入馆</span>
+      </button>
+      <div class="entrance-scene__veil" aria-hidden="true"></div>
+      <div class="entrance-scene__light-wash" aria-hidden="true"></div>
+    </section>
+
+    <section class="awakening-scene" id="awakening-scene" aria-label="撑伞入境" hidden>
+      <div class="awakening-scene__air" aria-hidden="true"></div>
+      <div
+        class="awakening-scene__grip"
+        id="awakening-grip"
+        role="slider"
+        tabindex="0"
+        aria-label="向上拖动撑开油纸伞"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <span class="awakening-scene__hint" aria-hidden="true">握住伞柄 · 向上撑开</span>
+      </div>
+      <div class="awakening-scene__pattern" id="awakening-pattern" aria-hidden="true"></div>
+    </section>
+
+    <section class="collection-hall-ui" id="collection-hall-ui" aria-label="八伞藏馆" hidden>
+      <h2 class="collection-hall-ui__title">
+        八伞藏馆
+        <small>移步寻伞 · 凝视藏品</small>
+      </h2>
+      <div class="collection-hall-ui__caption" id="collection-caption" aria-live="polite">
+        <span id="collection-caption-name"></span>
+        <small id="collection-caption-origin"></small>
+      </div>
+      <div class="collection-hall-ui__light-cut" aria-hidden="true"></div>
+      <div
+        class="collection-hall-ui__blackout"
+        id="collection-reveal-blackout"
+        aria-hidden="true"
+      ></div>
+    </section>
+
+    <main class="museum-layout">
+      <nav class="catalog" aria-labelledby="catalog-title">
+        <button class="catalog__close" id="catalog-close" type="button" aria-label="收起伞目录">收</button>
+        <h1 class="catalog__title" id="catalog-title">伞目录</h1>
+        <ul class="catalog__list" id="umbrella-list"></ul>
+        <p class="catalog__status" id="catalog-status" role="status" hidden></p>
+      </nav>
+
+      <div class="content-area">
+        <section class="stage" id="stage" aria-label="3D 展台">
+          <button class="immersive-entry catalog-trigger" id="catalog-trigger" type="button" aria-label="返回八伞藏馆">藏品</button>
+          <button class="immersive-entry culture-trigger" id="culture-trigger" type="button" aria-label="展开文化展签">展签</button>
+          <button class="immersive-entry fullscreen-trigger" id="fullscreen-trigger" type="button" aria-label="进入全屏展示" title="进入全屏展示"></button>
+          <div class="stage-controls is-collapsed" aria-label="古伞总控台">
+            <button
+              class="stage-controls__toggle"
+              id="stage-controls-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-label="展开古伞总控台"
+              title="展开设置"
+            >调</button>
+
+            <h2 class="control-console__title">古伞总控台</h2>
+
+            <details class="control-group" open>
+              <summary class="control-group__summary">基础设置</summary>
+              <div class="control-group__body">
+                <div class="stage-control stage-control--value">
+                  <label for="rib-count">骨数</label>
+                  <input id="rib-count" type="range" min="16" max="52" step="1" value="24" />
+                  <output id="rib-count-value" for="rib-count">24</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="rib-length">骨长</label>
+                  <input id="rib-length" type="range" min="1.2" max="3.8" step="0.02" value="2.6" />
+                  <output id="rib-length-value" for="rib-length">2.60</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="canopy-rise">伞面弧垂</label>
+                  <input id="canopy-rise" type="range" min="0" max="0.5" step="0.01" value="0.18" />
+                  <output id="canopy-rise-value" for="canopy-rise">0.18</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="open-amount">开合量</label>
+                  <input id="open-amount" type="range" min="0" max="1" step="0.01" value="1" />
+                  <output id="open-amount-value" for="open-amount">1.00</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="shaft-length">中棒长度</label>
+                  <input id="shaft-length" type="range" min="2.4" max="5.5" step="0.05" value="4.25" />
+                  <output id="shaft-length-value" for="shaft-length">4.25</output>
+                </div>
+              </div>
+            </details>
+
+            <details class="control-group">
+              <summary class="control-group__summary">光照</summary>
+              <div class="control-group__body">
+            <div class="stage-control stage-control--light">
+              <label for="main-light-angle">光照角度</label>
+              <input
+                id="main-light-angle"
+                type="range"
+                min="0"
+                max="360"
+                step="1"
+                value="321"
+              />
+              <output id="main-light-angle-value" for="main-light-angle">321°</output>
+            </div>
+
+            <div class="stage-control stage-control--light">
+              <label for="main-light-tilt">光照倾角</label>
+              <input
+                id="main-light-tilt"
+                type="range"
+                min="10"
+                max="85"
+                step="1"
+                value="45"
+              />
+              <output id="main-light-tilt-value" for="main-light-tilt">45°</output>
+            </div>
+
+            <div class="stage-control stage-control--light">
+              <label for="main-light-spread">光照范围</label>
+              <input
+                id="main-light-spread"
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value="70"
+              />
+              <output id="main-light-spread-value" for="main-light-spread">70%</output>
+            </div>
+
+            <div class="stage-control stage-control--light">
+              <label for="main-light-intensity">光照强度</label>
+              <input
+                id="main-light-intensity"
+                type="range"
+                min="0"
+                max="12"
+                step="0.1"
+                value="6.5"
+              />
+              <output id="main-light-intensity-value" for="main-light-intensity">6.5</output>
+            </div>
+              </div>
+            </details>
+
+            <details class="control-group">
+              <summary class="control-group__summary">颜色材质</summary>
+              <div class="control-group__body">
+                <div class="stage-control stage-control--value">
+                  <label for="transmission">透光率</label>
+                  <input id="transmission" type="range" min="0" max="1" step="0.01" value="0.24" />
+                  <output id="transmission-value" for="transmission">0.24</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="roughness">粗糙度</label>
+                  <input id="roughness" type="range" min="0" max="1" step="0.01" value="0.88" />
+                  <output id="roughness-value" for="roughness">0.88</output>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="canopy-color">伞面颜色</label>
+                  <input id="canopy-color" type="color" value="#c49a55" />
+                  <output id="canopy-color-value" for="canopy-color">#C49A55</output>
+                </div>
+                <div class="stage-control">
+                  <label for="canopy-texture">伞面纹样</label>
+                  <select id="canopy-texture"></select>
+                </div>
+                <div class="stage-control stage-control--value">
+                  <label for="rib-color">伞骨颜色</label>
+                  <input id="rib-color" type="color" value="#6f7a45" />
+                  <output id="rib-color-value" for="rib-color">#6F7A45</output>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="culture" aria-label="文化解说">
+          <button class="culture__close" id="culture-close" type="button" aria-label="收起文化展签">收</button>
+          <div class="culture__tabs" role="tablist" aria-label="文化内容">
+            <button
+              class="culture__tab"
+              id="shape-tab"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="shape-panel"
+              data-panel="shape-panel"
+            >形制</button>
+            <button
+              class="culture__tab"
+              id="craft-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="craft-panel"
+              data-panel="craft-panel"
+            >工艺</button>
+            <button
+              class="culture__tab"
+              id="pattern-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="pattern-panel"
+              data-panel="pattern-panel"
+            >纹样</button>
+          </div>
+
+          <div
+            class="culture__panel"
+            id="shape-panel"
+            role="tabpanel"
+            aria-labelledby="shape-tab"
+          ></div>
+          <div
+            class="culture__panel"
+            id="craft-panel"
+            role="tabpanel"
+            aria-labelledby="craft-tab"
+            hidden
+          ></div>
+          <div
+            class="culture__panel"
+            id="pattern-panel"
+            role="tabpanel"
+            aria-labelledby="pattern-tab"
+            hidden
+          ></div>
+        </section>
+      </div>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./src/app.js?v=20260825-launch-polish"></script>
+  </body>
+</html>

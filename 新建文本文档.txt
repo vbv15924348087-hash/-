@@ -1,0 +1,13 @@
+{
+  "ribCount": 24,
+  "ribLength": 1.84,
+  "canopyRise": 0.03,
+  "openAmount": 0.76,
+  "shaftLength": 3.2,
+  "transmission": 0.95,
+  "roughness": 0.42,
+  "mainLightAngle": 88,
+  "mainLightIntensity": 6.7,
+  "canopyColor": "#c65c2f",
+  "ribColor": "#000000"
+}

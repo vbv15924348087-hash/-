@@ -1,0 +1,152 @@
+{
+  "patterns": [
+    {
+      "path": "",
+      "label": "无贴图",
+      "presentation": "neutral"
+    },
+    {
+      "path": "assets/patterns/peony-crimson.png",
+      "label": "peony-crimson",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/westlake-ink.png",
+      "label": "westlake-ink",
+      "presentation": "landscape"
+    },
+    {
+      "path": "assets/patterns/plum-ink.png",
+      "label": "plum-ink",
+      "presentation": "ink"
+    },
+    {
+      "path": "assets/patterns/lotus-scroll.png",
+      "label": "lotus-scroll",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/crane-cloud.png",
+      "label": "crane-cloud",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/bat-fortune.png",
+      "label": "bat-fortune",
+      "presentation": "floralBird"
+    },
+    {
+      "path": "assets/patterns/rain-bamboo.png",
+      "label": "rain-bamboo",
+      "presentation": "ink"
+    },
+    {
+      "path": "assets/patterns/cloud-thunder.png",
+      "label": "cloud-thunder",
+      "presentation": "neutral"
+    }
+  ],
+  "umbrellas": [
+    {
+    "id": "luzhou-fenshui",
+    "name": "泸州分水油纸伞",
+    "alias": "",
+    "origin": "",
+    "geometry": {
+      "ribCount": 24,
+      "ribLength": 2.6,
+      "canopyRise": 0.18,
+      "openAmount": 0.85,
+      "shaftLength": 4.25
+    },
+    "material": {
+      "canopyTexture": "assets/patterns/westlake-ink.png",
+      "canopyColor": "#c49a55",
+      "transmission": 0.24,
+      "roughness": 0.88,
+      "ribColor": "#6f7a45"
+    },
+    "lighting": {
+      "mainLightAngle": 321,
+      "mainLightIntensity": 6.5
+    },
+    "culture": {
+      "shape": {
+        "text": "伞身轻便，伞面施油较厚，整体呈现传统民间艺术风格。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "size": "",
+      "materials": {
+        "text": "主要使用泸州当地的桐油、楠竹、水竹、岩桐木和皮纸制作。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternTheme": {
+        "text": "伞面以绘画与题诗相结合的装饰为特色，具有浓郁的乡土气息。",
+        "level": "史实",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579"
+      },
+      "patternMeaning": ""
+    },
+    "craftSteps": [
+      {
+        "name": "选材",
+        "desc": "一般认为，先按用途挑选楠竹、水竹、岩桐木、皮纸与桐油，并剔除开裂、虫蛀或受潮材料。材料决定骨架韧性和伞面附油效果，选料不稳会使成伞易变形、霉裂或漏雨。",
+        "image": "assets/craft/craft-01.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "锯托",
+        "desc": "一般认为，把竹木加工成伞骨、中棒及上下伞托，并控制各骨片长短、厚薄一致。锯削和打孔决定骨架能否均匀受力；尺寸偏差会造成开合卡滞、伞缘高低不齐，甚至折骨。",
+        "image": "assets/craft/craft-02.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "穿绞",
+        "desc": "一般认为，将伞骨按等距装入伞托，再用线绞联，使骨架能够同步张合。穿线松紧必须一致；过松会使骨架晃动，过紧则会妨碍开合，并可能让骨片或连接处过早损坏。",
+        "image": "assets/craft/craft-03.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "网边",
+        "desc": "一般认为，沿伞骨外缘缠线并固定伞边，使各骨末端保持均匀间距，同时为纸面边缘提供支撑。网边不匀会拉偏伞形，扎得不牢则容易在反复开合或受风时松脱、撕边。",
+        "image": "assets/craft/craft-04.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "糊纸",
+        "desc": "一般认为，将皮纸裁成适合伞面的若干片，湿润后分层贴覆在展开的骨架上，并压平接缝。纸层与张力必须均匀；糊得过紧易干裂，接缝不实会起皱、脱层并削弱挡雨能力。",
+        "image": "assets/craft/craft-05.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "绘图",
+        "desc": "一般认为，在纸面干燥稳定后印制或绘制纹样，控制图案位置、墨色和纸面含水。若纸面未干或落笔过重，颜料可能洇散、图形错位，也会影响随后上油时的综合色泽。",
+        "image": "assets/craft/craft-06.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”拨云见日迎油纸伞新生》https://sc.people.com.cn/BIG5/n2/2023/1204/c345528-40664560.html"
+      },
+      {
+        "name": "幌油",
+        "desc": "一般认为，将桐油均匀涂覆伞面，使油料渗入纸层并形成连续保护层，再等待表面稳定。涂得厚薄不一会出现色斑和黏连，漏涂处则难以抵挡雨水，收拢时也更易粘纸。",
+        "image": "assets/craft/craft-07.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”和他的“创富密码”》https://sc.people.com.cn/BIG5/n2/2024/1112/c345510-41039281.html"
+      },
+      {
+        "name": "箍烤",
+        "desc": "一般认为，用箍固定收拢后的伞形并进行适度烘烤，使纸面折痕、伞缘和骨架形态稳定，最后检查开合。温度或受力不均会使纸面焦脆、起皱或骨架歪斜，成伞便难以顺畅张合。",
+        "image": "assets/craft/craft-08.png",
+        "level": "推断",
+        "_source": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆：《伞制作技艺（油纸伞制作技艺）》https://www.ihchina.cn/project_details/14579；人民网四川频道：《“中国伞王”拨云见日迎油纸伞新生》https://sc.people.com.cn/BIG5/n2/2023/1204/c345528-40664560.html"
+      }
+    ]
+    }
+  ]
+}
