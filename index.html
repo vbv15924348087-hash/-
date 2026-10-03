@@ -1565,11 +1565,20 @@
     <script type="importmap">
       {
         "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+          "three": "./assets/vendor/three/three.module.js",
+          "three/addons/controls/OrbitControls.js": "./assets/vendor/three/OrbitControls.js"
         }
       }
     </script>
-    <script type="module" src="./src/app.js?v=20260825-launch-polish"></script>
+    <script>
+      // 模块加载失败时不要永久停在准备画面，给出可操作的刷新提示。
+      window.setTimeout(() => {
+        const screen = document.querySelector("#loading-screen:not(.is-done)");
+        const label = document.querySelector("#loading-screen__label");
+        if (!screen || !label || label.textContent !== "正在准备展馆…") return;
+        label.textContent = "资源加载失败，请按 Ctrl+F5 重新加载";
+      }, 10000);
+    </script>
+    <script type="module" src="./src/app.js?v=20260827-local-three"></script>
   </body>
 </html>
