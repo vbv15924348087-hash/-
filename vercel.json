@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node -e \"const fs=require('node:fs'); fs.mkdirSync('public/data',{recursive:true}); fs.copyFileSync('index.html','public/index.html'); fs.cpSync('src','public/src',{recursive:true}); fs.cpSync('assets','public/assets',{recursive:true}); fs.copyFileSync('data/umbrellas.json','public/data/umbrellas.json');\"",
+  "outputDirectory": "public"
+}
